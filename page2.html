@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第二页</title>
+    <style>
+        body {
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            position: relative;
+            cursor: url('img/cur.png'), auto;
+            overflow: hidden;
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 60px;
+            width: 8vw;
+            height: 60px;
+            background-color: transparent;
+            color: black;
+            border: none;
+            z-index: 1;
+        }
+
+        .center-container {
+            width: 100vw;
+            height: 100vh;
+            background-image: url(./img/2页.png);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .book-box {
+            width: 65vw;
+            height: 80vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: url('img/cur.png'), pointer;
+            position: relative;
+            left: 18vw;
+            top: 10vh;
+        }
+
+        .navigation-buttons {
+            position: fixed;
+            top: 48vh;
+            left: 3vw;
+            right: 3vw;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+            z-index: 5;
+            color: transparent;
+        }
+
+        .nav-button {
+            background-color: transparent;
+            border: none;
+            width: 100px;
+            height: 50px;
+            cursor: url('img/cur.png'), pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 背景容器 -->
+    <div class="background-container">
+        <!-- 背景视频 -->
+        <video class="background-video" autoplay muted loop>
+            <source src="video/page2.mov" type="video/mp4">
+            您的浏览器不支持视频播放。
+        </video>
+    </div>
+
+    <button class="back-button" id="backButton"></button>
+
+    <div class="navigation-buttons">
+        <button class="nav-button" id="leftButton"></button>
+        <button class="nav-button" id="rightButton"></button>
+    </div>
+
+    <div class="center-container">
+        <div class="book-box" id="bookBox"></div>
+    </div>
+
+    <!-- 音频元素 -->
+    <audio id="backgroundMusic" loop>
+        <source src="audio/2.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="clickSound">
+        <source src="audio/鼠标音效.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="buttonSound">
+        <source src="audio/button.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 页面加载完成后播放背景音乐
+        window.addEventListener('DOMContentLoaded', function () {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const clickSound = document.getElementById('clickSound');
+            const buttonSound = document.getElementById('buttonSound');
+
+            // 尝试播放背景音乐
+            backgroundMusic.volume = 0.8
+            backgroundMusic.play().catch(function (error) {
+                console.log("自动播放背景音乐失败:", error);
+            });
+
+            // 点击音效播放函数
+            function playClickSound(callback) {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(function (error) {
+                    console.log("播放点击音效失败:", error);
+                });
+
+                setTimeout(callback, 100);
+            }
+
+            // 按钮音效播放函数
+            function playButtonSound(callback) {
+                buttonSound.currentTime = 0;
+                buttonSound.play().catch(function (error) {
+                    console.log("播放按钮音效失败:", error);
+                });
+
+                setTimeout(callback, 100);
+            }
+
+            // 返回首页
+            document.getElementById('backButton').addEventListener('click', function (e) {
+                e.stopPropagation();
+                playClickSound(function () {
+                    window.location.href = 'index.html';
+                });
+            });
+
+            // 点击书籍盒子跳转到 page2_1.html
+            document.getElementById('bookBox').addEventListener('click', function () {
+                playClickSound(function () {
+                    window.location.href = 'page2_1.html';
+                });
+            });
+
+            // 左侧按钮跳转到 page5.html
+            document.getElementById('leftButton').addEventListener('click', function (e) {
+                e.stopPropagation();
+                playButtonSound(function () {
+                    window.location.href = 'page5.html';
+                });
+            });
+
+            // 右侧按钮跳转到 page3.html
+            document.getElementById('rightButton').addEventListener('click', function (e) {
+                e.stopPropagation();
+                playButtonSound(function () {
+                    window.location.href = 'page3.html';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

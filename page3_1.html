@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 3_1</title>
+    <style>
+        body {
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            position: relative;
+            cursor: url('img/cur.png'), auto;
+            overflow: hidden;
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('img/3.1页.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 60px;
+            width: 8vw;
+            height: 60px;
+            background-color: transparent;
+            color: black;
+            border: none;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .floating-box {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-color: transparent;
+            color: transparent;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: url('img/cur.png'), pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .box1 {
+            width: 12vw;
+            height: 60vh;
+            top: 5%;
+            left: 20%;
+        }
+
+        .box2 {
+            width: 30vw;
+            height: 12vh;
+            top: 15%;
+            right: 6%;
+        }
+
+        .box3 {
+            width: 25vw;
+            height: 70vh;
+            bottom: 10%;
+            left: 35%;
+        }
+
+        .box4 {
+            width: 16vw;
+            bottom: 8%;
+            left: 16%;
+        }
+
+        .box5 {
+            bottom: 33%;
+            left: 5%;
+        }
+
+        .floating-box:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+        }
+
+        .modal-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 40px;
+            left: 30px;
+            width: 8vw;
+            height: 60px;
+            color: white;
+            background: url(img/back.png) no-repeat 100% 100%;
+            background-size: cover;
+            border: none;
+            z-index: 101;
+            cursor: pointer;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 背景容器 -->
+    <div class="background-container"></div>
+
+    <!-- 鼠标音效 -->
+    <audio id="clickSound">
+        <source src="audio/鼠标音效.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 盒子音效 -->
+    <audio id="box1Sound">
+        <source src="audio/3.1/1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="box2Sound">
+        <source src="audio/3.1/2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="box3Sound">
+        <source src="audio/3.1/3.m4a" type="audio/mpeg">
+    </audio>
+    <audio id="box4Sound">
+        <source src="audio/3.1/4.m4a" type="audio/mpeg">
+    </audio>
+
+    <button class="back-button" id="backButton"></button>
+
+    <div class="floating-box box1" id="box1" data-video="video/3.1/1.mov">
+        盒子 1
+    </div>
+
+    <div class="floating-box box2" id="box2" data-video="video/3.1/2.mov">
+        盒子 2
+    </div>
+
+    <div class="floating-box box3" id="box3" data-video="video/3.1/3.mov">
+        盒子 3
+    </div>
+
+    <div class="floating-box box4" id="box4" data-video="video/3.1/4.mov">
+        盒子 4
+    </div>
+
+    <!-- 视频弹窗 -->
+    <div class="modal" id="videoModal">
+        <button class="modal-close-button" id="closeModal"></button>
+        <div class="modal-content">
+            <video id="modalVideo" controls>
+                您的浏览器不支持视频播放。
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载完成后播放背景音乐
+        window.addEventListener('DOMContentLoaded', function () {
+            const clickSound = document.getElementById('clickSound');
+
+            // 点击音效播放函数
+            function playClickSound(callback) {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(function (error) {
+                    console.log("播放点击音效失败:", error);
+                });
+
+                // 如果提供了回调函数，则在音效播放后执行
+                if (callback && typeof callback === 'function') {
+                    setTimeout(callback, 100);
+                }
+            }
+
+            // 返回按钮功能
+            document.getElementById('backButton').addEventListener('click', function(e) {
+                playClickSound(function() {
+                    window.location.href = 'page3.html';
+                });
+            });
+
+            // 模态框关闭按钮功能
+            document.getElementById('closeModal').addEventListener('click', function(e) {
+                playClickSound(function() {
+                    document.getElementById('videoModal').style.display = 'none';
+                    const video = document.getElementById('modalVideo');
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            });
+
+            // 为所有浮动盒子添加点击音效
+            const boxes = document.querySelectorAll('.floating-box');
+            boxes.forEach(box => {
+                // 鼠标悬停播放声音
+                box.addEventListener('mouseenter', function () {
+                    const boxId = this.id;
+                    const soundElement = document.getElementById(`${boxId}Sound`);
+                    if (soundElement) {
+                        soundElement.currentTime = 0;
+                        soundElement.play().catch(function (error) {
+                            console.log(`播放${boxId}音效失败:`, error);
+                        });
+                    }
+                });
+
+                    // 鼠标离开停止播放声音
+                box.addEventListener('mouseleave', function () {
+                    const boxId = this.id;
+                    const soundElement = document.getElementById(`${boxId}Sound`);
+                    if (soundElement) {
+                        soundElement.pause();
+                        soundElement.currentTime = 0;
+                    }
+                });
+
+                // 点击播放视频
+                box.addEventListener('click', function (e) {
+                    playClickSound(function() {
+                        const videoSrc = box.getAttribute('data-video');
+                        const modal = document.getElementById('videoModal');
+                        const video = document.getElementById('modalVideo');
+
+                        video.src = videoSrc;
+                        modal.style.display = 'block';
+
+                        // 视频在显示后自动播放
+                        video.play().catch(function (error) {
+                            console.log("播放视频失败:", error);
+                        });
+                    });
+                });
+            });
+
+            // 为模态框背景添加点击音效
+            const modal = document.getElementById('videoModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        playClickSound(function() {
+                            modal.style.display = 'none';
+                            const video = document.getElementById('modalVideo');
+                            video.pause();
+                            video.currentTime = 0;
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
