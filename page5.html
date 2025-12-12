@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>page3</title>
+    <title>page5</title>
     <style>
         body {
             background-color: transparent;
@@ -50,7 +50,7 @@
         .center-container {
             width: 100vw;
             height: 100vh;
-            background-image: url(./img/3页.png);
+            background-image: url(./img/5页.png);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -97,7 +97,7 @@
     <div class="background-container">
         <!-- 背景视频 -->
         <video class="background-video" autoplay muted loop>
-            <source src="video/page3.mov" type="video/mp4">
+            <source src="video/page5.mov" type="video/mp4">
             您的浏览器不支持视频播放。
         </video>
     </div>
@@ -115,12 +115,13 @@
 
     <!-- 音频元素 -->
     <audio id="backgroundMusic" loop>
-        <source src="audio/3.mp3" type="audio/mpeg">
+        <source src="audio/5.mp3" type="audio/mpeg">
     </audio>
 
     <audio id="clickSound">
         <source src="audio/鼠标音效.mp3" type="audio/mpeg">
     </audio>
+
     <audio id="buttonSound">
         <source src="audio/button.mp3" type="audio/mpeg">
     </audio>
@@ -166,26 +167,26 @@
                 });
             });
 
-            // 点击书籍盒子跳转到 page3_1.html
+            // 点击书籍盒子跳转到 page5_1.html
             document.getElementById('bookBox').addEventListener('click', function () {
                 playClickSound(function () {
-                    window.location.href = 'page3_1.html';
+                    window.location.href = 'page5_1.html';
                 });
             });
 
-            // 左侧按钮跳转到 page2.html
+            // 左侧按钮跳转到 page4.html
             document.getElementById('leftButton').addEventListener('click', function (e) {
                 e.stopPropagation();
                 playButtonSound(function () {
-                    window.location.href = 'page2.html';
+                    window.location.href = 'page4.html';
                 });
             });
 
-            // 右侧按钮跳转到 page4.html
+            // 右侧按钮跳转到 page2.html
             document.getElementById('rightButton').addEventListener('click', function (e) {
                 e.stopPropagation();
                 playButtonSound(function () {
-                    window.location.href = 'page4.html';
+                    window.location.href = 'page2.html';
                 });
             });
         });
